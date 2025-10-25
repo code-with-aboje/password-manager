@@ -4,8 +4,8 @@
   "display": "standalone",
   "name": "code-with-aboje.github",
   "orientation": "any",
-  "scope": "/",
+  "scope": "/password-manager/",
   "short_name": "code-with-aboje.github",
-  "start_url": "/",
+  "start_url": "/password-manager/",
   "theme_color": "#1976d2"
 }
