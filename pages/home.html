@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Password Generator</h1>
+
+        <div class="password-display">
+            <input type="text" id="password" value="P@ssw0rd123!" readonly>
+            <button class="icon-btn" id="copyBtn" title="Copy password">
+                <svg viewBox="0 0 24 24">
+                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                </svg>
+            </button>
+            <button class="icon-btn" id="refreshBtn" title="Generate new password">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="strength-meter">
+            <div class="strength-label">
+                <span>Password Strength</span>
+                <span class="strength-text" id="strengthText">Strong</span>
+            </div>
+            <div class="strength-bar">
+                <div class="strength-fill strong" id="strengthFill"></div>
+            </div>
+        </div>
+
+        <div class="options">
+            <div class="option-group">
+                <label class="option-label">Password Length</label>
+                <div class="slider-container">
+                    <input type="range" min="4" max="32" value="12" class="slider" id="lengthSlider">
+                    <span class="slider-value" id="lengthValue">12</span>
+                </div>
+            </div>
+
+            <div class="option-group">
+                <label class="option-label">Include Characters</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="uppercase" checked>
+                        <label for="uppercase">Uppercase (A-Z)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="lowercase" checked>
+                        <label for="lowercase">Lowercase (a-z)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="numbers" checked>
+                        <label for="numbers">Numbers (0-9)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="symbols" checked>
+                        <label for="symbols">Symbols (!@#$%^&*)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn" id="generateBtn">Generate Password</button>
+        <br />
+        <br />
+        <h3>App name</h3>
+        <br />
+        <input type="text" placeholder="E.g Facebook" id="app_name">
+        <br />
+        <br />
+        <h3>
+            User name
+        </h3>
+        <br />
+        <input type="text" placeholder="E.g John Doe" id="user_name">
+        <br />
+         <br />
+         <h3>
+             Email / phone 
+         </h3>
+         <br />
+        <input type="text" placeholder="E.g john@gmail.com" id="email">
+        <br />
+        <br />
+        <br />
+ <button class="btn" id="saveBtn">Save Details</button>
+    </div>
+
+    <div class="notification" id="notification">Password copied to clipboard!</div>
+    <div class="notification save-notification" id="saveNotification">Details saved successfully!</div>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            background:black;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .password-display {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            
+        }
+        
+    
+        
+        #user_name{
+            height:40px;
+            border-radius: 5px;
+            width:100%;
+            padding-left:3%;
+        }
+       #app_name{
+            height:40px;
+            border-radius: 5px;
+            width:100%;
+            padding-left:3%;
+        }
+        #email{
+            height:40px;
+            border-radius: 5px;
+            width:100%;
+            padding-left:3%;
+        }
+
+        .password-display:focus-within {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        h3{
+            font-family: fantasy;
+        }
+
+        #password {
+            flex: 1;
+            font-size: 1.1rem;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            background: transparent;
+            border: none;
+            outline: none;
+            letter-spacing: 1px;
+            font-weight: bold;
+            font-size:1rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #667eea;
+        }
+
+        .strength-meter {
+            margin-bottom: 2rem;
+        }
+
+        .strength-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .strength-text {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .strength-text.weak { color: #dc3545; }
+        .strength-text.medium { color: #ffc107; }
+        .strength-text.strong { color: #28a745; }
+
+        .strength-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .strength-fill.weak {
+            width: 33%;
+            background: linear-gradient(90deg, #dc3545, #ff6b6b);
+        }
+
+        .strength-fill.medium {
+            width: 66%;
+            background: linear-gradient(90deg, #ffc107, #ffdd57);
+        }
+
+        .strength-fill.strong {
+            width: 100%;
+            background: linear-gradient(90deg, #28a745, #5cb85c);
+        }
+
+        .options {
+            margin-bottom: 2rem;
+        }
+
+        .option-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .option-label {
+            display: block;
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .slider-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .save-notification {
+            top: 80px;
+            background: #667eea;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            #password {
+                font-size: 1rem;
+            }
+        }
+        
+        input{
+            font-family: sans-serif;
+            font-size: 0.9rem;
+            border: none;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+        
+        }
+        @media(min-width:600px){
+            h3{
+                font-family: 'Times New Roman', Times, serif;
+            }
+          
+        }
+
+    </style>
+    <script>
+        const passwordEl = document.getElementById('password');
+        const lengthSlider = document.getElementById('lengthSlider');
+        const lengthValue = document.getElementById('lengthValue');
+        const uppercaseCheck = document.getElementById('uppercase');
+        const lowercaseCheck = document.getElementById('lowercase');
+        const numbersCheck = document.getElementById('numbers');
+        const symbolsCheck = document.getElementById('symbols');
+        const generateBtn = document.getElementById('generateBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const notification = document.getElementById('notification');
+        const strengthText = document.getElementById('strengthText');
+        const strengthFill = document.getElementById('strengthFill');
+
+        const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        const numbers = '0123456789';
+        const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+        // Update length value
+        lengthSlider.addEventListener('input', (e) => {
+            lengthValue.textContent = e.target.value;
+        });
+
+        // Generate password function
+        function generatePassword() {
+            const length = parseInt(lengthSlider.value);
+            let charset = '';
+            let password = '';
+
+            if (uppercaseCheck.checked) charset += uppercase;
+            if (lowercaseCheck.checked) charset += lowercase;
+            if (numbersCheck.checked) charset += numbers;
+            if (symbolsCheck.checked) charset += symbols;
+
+            if (charset === '') {
+                alert('Please select at least one character type!');
+                return;
+            }
+
+            // Ensure at least one character from each selected type
+            if (uppercaseCheck.checked) password += uppercase[Math.floor(Math.random() * uppercase.length)];
+            if (lowercaseCheck.checked) password += lowercase[Math.floor(Math.random() * lowercase.length)];
+            if (numbersCheck.checked) password += numbers[Math.floor(Math.random() * numbers.length)];
+            if (symbolsCheck.checked) password += symbols[Math.floor(Math.random() * symbols.length)];
+
+            // Fill the rest randomly
+            for (let i = password.length; i < length; i++) {
+                password += charset[Math.floor(Math.random() * charset.length)];
+            }
+
+            // Shuffle the password
+            password = password.split('').sort(() => Math.random() - 0.5).join('');
+
+            passwordEl.value = password;
+            updateStrength(password);
+        }
+
+        // Update password strength
+        function updateStrength(password) {
+            let strength = 0;
+            
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+            if (strength <= 2) {
+                strengthFill.className = 'strength-fill weak';
+                strengthText.className = 'strength-text weak';
+                strengthText.textContent = 'Weak';
+            } else if (strength <= 4) {
+                strengthFill.className = 'strength-fill medium';
+                strengthText.className = 'strength-text medium';
+                strengthText.textContent = 'Medium';
+            } else {
+                strengthFill.className = 'strength-fill strong';
+                strengthText.className = 'strength-text strong';
+                strengthText.textContent = 'Strong';
+            }
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            passwordEl.select();
+            document.execCommand('copy');
+            
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
+        // Event listeners
+        generateBtn.addEventListener('click', generatePassword);
+        refreshBtn.addEventListener('click', generatePassword);
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        // Generate password on checkbox change
+        [uppercaseCheck, lowercaseCheck, numbersCheck, symbolsCheck].forEach(checkbox => {
+            checkbox.addEventListener('change', generatePassword);
+        });
+
+        lengthSlider.addEventListener('change', generatePassword);
+
+        // Generate initial password
+        generatePassword();
+        
+        
+        const saveBtn = document.getElementById("saveBtn");
+        const user_name = document.getElementById("user_name");
+        const app_name = document.getElementById("app_name");
+        const email = document.getElementById("email");
+        const saveNotification = document.getElementById("saveNotification");
+    
+        saveBtn.addEventListener("click", ()=>{
+            let name = user_name.value.trim();
+            let app = app_name.value.trim();
+            let user_email = email.value.trim();
+            let user_password = passwordEl.value;
+            
+            // Check if all fields are filled
+            if (!name || !app || !user_email || !user_password) {
+                alert("Please fill in all fields before saving!");
+                return;
+            }
+            
+            let value = {
+               website_name : app,
+               account_name : name,
+               email_used : user_email,
+               password_used : user_password
+            };
+            let uniqueKey = "items_" + Date.now();
+            localStorage.setItem(uniqueKey,JSON.stringify(value))
+            // Store in memory (localStorage not supported in artifacts)
+            saveNotification.classList.add('show');
+            setTimeout(() => {
+                saveNotification.classList.remove('show');
+            }, 2000);
+            
+            // Clear the form after saving
+            user_name.value = '';
+            app_name.value = '';
+            email.value = '';
+        });
+    </script>
+</body>
+</html>

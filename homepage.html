@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Homepage</title>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">📥Vault</div>
+        <nav id="nav">
+            <a href="#" class="nav-link active" data-page="home">password generator 🔏 </a>
+            <a href="#" class="nav-link" data-page="about">Accounts</a>
+            <!-- 
+                <a href="#" class="nav-link" data-page="services">Services</a>
+                <a href="#" class="nav-link" data-page="portfolio">Portfolio</a>
+                <a href="#" class="nav-link" data-page="contact">Contact</a>
+            -->
+        </nav>
+    </aside>
+
+    <!-- Toggle Button -->
+    <div class="toggle-btn" id="toggleBtn">
+        <span></span>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main">
+        <div class="content-wrapper">
+            <iframe id="content-frame" src="pages/home.html"></iframe>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Powered by <span>ＣＬＡ Ƴ 𓃵</span></p>
+    </footer>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #42445A 0%, #25262B 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-250px);
+        }
+
+        .logo {
+            padding: 2rem 1.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 2px solid #f0f0f0;
+            
+        }
+
+        nav {
+            flex: 1;
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            border-left: 4px solid transparent;
+        }
+
+        nav a:hover {
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
+            border-left-color: #667eea;
+            padding-left: 2rem;
+        }
+
+        nav a.active {
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.15) 0%, transparent 100%);
+            border-left-color: #667eea;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            position: fixed;
+            left: 260px;
+            top: 20px;
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .toggle-btn.collapsed {
+            left: 20px;
+        }
+
+        .toggle-btn span {
+            width: 20px;
+            height: 2px;
+            background: #667eea;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn span::before,
+        .toggle-btn span::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn span::before {
+            top: -6px;
+        }
+
+        .toggle-btn span::after {
+            top: 6px;
+        }
+
+        .toggle-btn.collapsed span {
+            background: transparent;
+        }
+
+        .toggle-btn.collapsed span::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        .toggle-btn.collapsed span::after {
+            transform: rotate(-45deg);
+            top: 0;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 250px;
+            padding: 0;
+            padding-bottom: 4rem; /* Add space for footer */
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        main.expanded {
+            margin-left: 0;
+        }
+
+        .content-wrapper {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            /* FIXED: Account for footer height (approx 2.5rem) */
+            height: calc(100vh - 6.5rem);
+        }
+
+        #content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 250px; /* Align with main content */
+            width: calc(100% - 250px);
+            text-align: center;
+            padding: 0.8rem;
+            font-size: 0.9rem;
+            color: #444;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            transition: left 0.3s ease, width 0.3s ease;
+            z-index: 999;
+        }
+
+        /* Footer when sidebar is collapsed */
+        main.expanded ~ footer {
+            left: 0;
+            width: 100%;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-250px);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .toggle-btn {
+                left: 20px;
+            }
+
+            .toggle-btn.active {
+                left: 260px;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 1rem;
+                padding-bottom: 3.5rem;
+            }
+
+            .content-wrapper {
+                height: calc(100vh - 5rem);
+            }
+
+            footer {
+                left: 0;
+                width: 100%;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-size: 1.2rem;
+            color: #667eea;
+        }
+
+        .loading::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media(min-width:760px){
+            *{
+                font-family: 'Times New Roman', Times, serif;
+            }
+        }
+    </style>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const main = document.getElementById('main');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentFrame = document.getElementById('content-frame');
+
+        // Toggle sidebar
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            sidebar.classList.toggle('active');
+            toggleBtn.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('active');
+            main.classList.toggle('expanded');
+        });
+
+        // Handle navigation clicks
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                const page = link.getAttribute('data-page');
+                loadPage(page);
+
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    toggleBtn.classList.remove('active');
+                }
+            });
+        });
+
+        // Load different pages
+        function loadPage(page) {
+            contentFrame.style.opacity = '0';
+            contentFrame.src = `pages/${page}.html`;
+            setTimeout(() => contentFrame.style.opacity = '1', 400);
+        }
+    </script>
+</body>
+</html>

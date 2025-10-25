@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+</head>
+<body id="body">
+    
+    <style>
+        .display_area{
+            background: rgba(255, 255, 255, 0.95);
+        
+            border-radius: 20px;
+            padding:1rem;
+            max-width: 350px;
+            width: 100%;
+            margin: 0 auto;
+            margin-top:5%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .data{
+            height: 30px;
+            width: 200px;
+            margin: 0 auto;
+            background:red;
+        }
+        
+    </style>
+<script>
+
+
+   for(let i = 0; i < localStorage.length; i++){
+       let key = localStorage.key(i);
+       if(key.startsWith("items_")){
+          let value = JSON.parse(localStorage.getItem(key));
+          const display_area = document.getElementById("body");
+          const flex_area = document.createElement('div');
+          const flex_area2 = document.createElement('div');
+          const flex_area3 = document.createElement('div');
+          const flex_area4 = document.createElement('div');
+          const copy_svg = document.createElement('button');
+          copy_svg.innerHTML = ` <svg viewBox="0 0 24 24" style="width:25px;  height:25px; fill:#667eea;">
+           <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+       </svg>`;
+       
+       const copy_svg2 = document.createElement('button');
+       copy_svg2.innerHTML = ` <svg viewBox="0 0 24 24" style="width:25px;  height:25px; fill:#667eea;">
+        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+       </svg>`;
+          // naming variables
+          const app_name  = document.createElement("h4");
+          const user_name  = document.createElement("h4");
+          const email  = document.createElement("h4");
+          const password = document.createElement("h4");
+          const breakage = document.createElement('br');
+          const div = document.createElement("div");
+       
+          //credential variables
+       
+          const app_label = document.createElement("label");
+          const user_label = document.createElement("label");
+          const email_label = document.createElement("label");
+          const user_password = document.createElement("label");
+       
+          // adding values to names
+          app_name.innerText = 'App name: ';
+          user_name.innerText = 'User name: ';
+          email.innerText = 'Email/Phone: ';
+          password.innerText = 'Password: ';
+       
+          //adding values to credentials
+       
+          app_label.innerText = `${value.website_name}`;
+          user_label.innerText = `${value.account_name}`;
+          email_label.innerText =`${value.email_used}`;
+          user_password.innerText = `${value.password_used}`;
+       
+          div.appendChild(flex_area);
+          flex_area.appendChild(app_name); 
+          flex_area.appendChild(app_label);
+          
+         div.appendChild(flex_area2);
+         flex_area2.appendChild(user_name);
+         flex_area2.appendChild(user_label)
+         
+       
+         div.appendChild(flex_area3);
+         flex_area3.appendChild(email);
+         flex_area3.appendChild(email_label);
+         flex_area3.appendChild(copy_svg)
+       
+         div.appendChild(flex_area4);
+         flex_area4.appendChild(password);
+         flex_area4.appendChild(user_password);
+         flex_area4.appendChild(copy_svg2)
+        
+          display_area.append(div);
+       
+                  /* div styling */
+                  div.style.background = "rgba(255, 255, 255, 0.95)";
+                  div.style.borderRadius = "20px";
+                  div.style.padding = "2px 10px";
+                  div.style.maxWidth = "350px";
+                  div.style.margin = "0 auto";
+                  div.style.marginTop = "5%";
+                  div.style.display = "block";
+                  div.style.boxShadow = "0 20px 60px rgba(0, 0, 0, 0.3)";
+       
+       
+                 /*  flex_area styling */
+                  flex_area.style.display = 'flex';
+                  flex_area.style.alignItems = 'center';
+                  flex_area.style.justifyContent = 'space-between';
+                  flex_area.style.maxWidth = '230px';
+       
+                  flex_area2.style.display = 'flex';
+                  flex_area2.style.alignItems = 'center';
+                  flex_area2.style.marginTop = '-8%';
+                  flex_area2.style.justifyContent = 'space-between';
+                  flex_area2.style.maxWidth = '230px';
+
+
+                  
+                  
+                  flex_area3.style.display = 'flex';
+                  flex_area3.style.alignItems = 'center';
+                  flex_area3.style.marginTop = '-8%';
+                  flex_area3.style.justifyContent = 'space-between';
+                  
+                  flex_area4.style.display = 'flex';
+                  flex_area4.style.alignItems = 'center';
+                  flex_area4.style.marginTop = '-8%';
+                  flex_area4.style.justifyContent = 'space-between';
+       
+                  email_label.style.color = 'green';
+                  user_password.style.color = 'red';
+               
+                  //styling copy button 
+                  copy_svg.style.border = 'none';
+                  copy_svg.style.cursor = 'pointer';
+                  copy_svg.style.padding = '0.5px';
+                  copy_svg.style.borderRadius = '8px';
+                  copy_svg.style.transition = 'all0.3s ease';
+                  copy_svg.style.display = 'flex';
+                  copy_svg.style.alignItems = 'center';
+                  copy_svg.style.justifyContent = 'center'
+                  copy_svg.style.background = 'none';
+       
+                  //styling copy button 
+                  copy_svg2.style.border = 'none';
+                  copy_svg2.style.cursor = 'pointer';
+                  copy_svg2.style.padding = '0.5px';
+                  copy_svg2.style.borderRadius = '8px';
+                  copy_svg2.style.transition = 'all0.3s ease';
+                  copy_svg2.style.display = 'flex';
+                  copy_svg2.style.alignItems = 'center';
+                  copy_svg2.style.justifyContent = 'center'
+                  copy_svg2.style.background = 'none';
+       
+                  user_label.style.fontWeight = 'bold';
+                  user_label.style.fontSize = '1.1rem';
+                  app_label.style.fontWeight = 'bold';
+                  app_label.style.fontSize = '1.1rem';
+                  copy_svg.addEventListener("click", ()=>{
+                   navigator.clipboard.writeText(email_label.textContent)
+                   .then(()=>{
+                       alert("copied");
+                   })
+                   .catch((err =>{
+                       console.log("failed to copy text: ", err)
+                   }))
+                  })
+       
+                  copy_svg2.addEventListener("click", ()=>{
+                   navigator.clipboard.writeText(user_password.textContent)
+                   .then(()=>{
+                       alert("copied");
+                   })
+                   .catch((err =>{
+                       console.log("failed to copy text: ", err)
+                   }))
+                  })
+       
+                  /* div styling */
+                  div.style.background = "rgba(255, 255, 255, 0.95)";
+                  div.style.borderRadius = "20px";
+                  div.style.padding = "1rem";
+                  div.style.maxWidth = "350px";
+                  div.style.margin = "0 auto";
+                  div.style.marginTop = "5%";
+                  div.style.display = "block";
+                  div.style.boxShadow = "0 20px 60px rgba(0, 0, 0, 0.3)";
+        
+           
+          
+       }
+   }
+
+</script>
+</body>
+</html>

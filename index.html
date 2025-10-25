@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Generator</title>
+</head>
+<body>
+<div class="form-container" id="formContainer">
+  
+  <form id="signupForm">
+    <label for="Nickname">User_name</label>
+    <br />
+    <input type="text" placeholder="Create user name" id="name" required>
+    <br />
+  <br>
+    <div class="input-container">
+  <label for="passkeys">passkeys</label>
+  <br />
+  <input type="password" placeholder="Create passkeys" id="passkey" required>
+<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 512 512"><title>Bleeding-eye SVG Icon</title><path fill="#ffffff" d="M246.344 28.938c-89.18-.037-174.996 44.27-222.656 133c21.242 38.834 45.078 64.08 54.374 100v49.968C73.3 322.043 66 329.11 66 340.312c0 9.09 11.63 18.094 21.03 18.094c9.198 0 21.597-9.677 21.595-19.25c0-11.367-7.31-17.81-11.875-27.03v-32.282c16.002-32.16 81.357-9.403 105.844 45.625v80.592c-6.364 10.477-13.625 16.953-13.625 28.875c0 17.885 11.763 24.5 23.936 24.5c11.907 0 21.594-5.66 21.594-24.5c0-9.298-7.442-16.634-13.22-31.062V325.72c15.678-36.473 54.92-20.136 71.657 31.25v74.842c-5.41 10.498-11.718 19.456-11.718 32.313c0 12.927 10.045 22.188 21.03 22.188c10.744 0 22.188-9.728 22.188-23.344c0-14.448-7.098-23.414-12.813-34.564v-84.562h-.22c15.34-65.977 52.293-101.43 68.75-52.594v59.78c-4.457 8.957-9.56 17.375-9.56 29.595c0 13.944 9.553 23.938 18.686 23.938c9.338 0 18.095-9.543 18.095-22.782c0-10.83-4.347-19.014-8.53-27.56v-69.91c19.988-69.842 66.447-87.325 90.31-122.375c-61.083-88.583-153.632-132.963-242.81-133zm.437 22c81.74-.606 166.08 37.776 216.126 115.906c-149.813 108.407-280.244 108.6-412.969-4.938c40.834-73.15 117.62-110.38 196.844-110.97zm4.69 16.03c-44.972 0-81.407 36.468-81.407 81.438s36.435 81.406 81.406 81.406c44.97 0 81.436-36.434 81.436-81.406c0-44.97-36.467-81.437-81.437-81.437zm-.532 49.063c16.13 0 29.187 13.06 29.187 29.19s-13.057 29.218-29.188 29.218c-16.13 0-29.218-13.09-29.218-29.22s13.087-29.187 29.218-29.187z" id="eye_icon"/></svg>
+</div>
+    <br />
+    
+    <br />
+    <br />
+    <button class="button" type="submit">
+      Proceed
+    </button>
+  </form>
+</div>
+
+<!-- Hacker Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="terminal">
+    <div class="terminal-header">
+      <span class="terminal-title">SYSTEM ACCESS</span>
+      <span class="terminal-close">×</span>
+    </div>
+    <div class="terminal-body">
+      <div class="loading-text" id="loadingText"></div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="percentage" id="percentage">0%</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Powered by <span>ＣＬＡ Ƴ 𓃵</span></p>
+</footer>
+  <style>
+  *{
+    font-family: fantasy;
+  }
+    body{
+      background-image: url("/Assets/icon.png");
+      background-size:cover;
+      background-repeat:no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), /* overlay */
+}
+    
+    
+    .form-container{
+      height:auto;
+      width:60%;
+      display: block;
+      margin: 0 auto;
+      padding:4%;
+      margin-top:40%;
+      transition: opacity 0.5s ease;
+    }
+    
+    .form-container.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    form{
+      display:flex;
+      flex-direction: column;
+      gap:-12px;
+    }
+
+
+   label {
+  position: relative;
+  display: inline-block;
+  padding: 15px 10px;
+  color: #ff4d4d;
+  text-align: center;
+  width: 80px;
+  border-top-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* The glowing animated border effect */
+label::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px; /* controls border thickness */
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #000000,
+    #ff0000
+  ); 
+  background-size: 300% 100%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: borderFlow 4s linear infinite;
+  z-index: -1;
+}
+
+/* Inner area (behind text) */
+label::after {
+  content: "";
+  position: absolute;
+  inset: 2px; /* matches padding thickness above */
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* Animation keyframes for border movement */
+@keyframes borderFlow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 300% 0%;
+  }
+}
+    input{
+      height:34px;
+      padding:12px;
+      border:none;
+      border-bottom: 2px solid white;
+      background:none;
+      color:white;
+      font-weight: bold;
+      font-family: monospace;
+      font-size:1rem;
+    }
+    
+    input::placeholder{
+      color:white;
+    }
+    
+    input:hover{
+      border:none;
+    }
+    
+    input:active{
+      border:none;
+    }
+    
+    .button{
+  position: relative;
+  display: inline-block;
+  padding: 15px 10px;
+  color: #ff4d4d;
+  text-align: center;
+  width:50%;
+  border-top-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+  z-index: 0;
+  display: block;
+  margin:0 auto;
+  border: none;
+  cursor: pointer;
+    }
+/* The glowing animated border effect */
+button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px; /* controls border thickness */
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #000000,
+    #ff0000
+  );
+  background-size: 300% 100%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: borderFlow 4s linear infinite;
+  z-index: -1;
+}
+
+/* Inner area (behind text) */
+button::after {
+  content: "";
+  position: absolute;
+  inset: 2px; /* matches padding thickness above */
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* Animation keyframes for border movement */
+@keyframes borderFlow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 300% 0%;
+  }
+}
+  
+    
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-container input {
+  
+  padding: 10px 40px 10px 10px; /* space for icon */
+  border: none;
+  border-bottom: 2px solid white;
+  background: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.input-container svg {
+  position: absolute;
+  right: 10px;
+  top: 75%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: fill 0.3s ease;
+}
+
+.input-container svg.active {
+  fill: #ff4d4d; /* red when active */
+}  
+
+/* Loading Screen Styles */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-screen.active {
+  display: flex;
+}
+
+.terminal {
+  width: 90%;
+  max-width: 600px;
+  background: #000;
+  border: 2px solid #ff4d4d;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(255, 77, 77, 0.5);
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+}
+
+.terminal-header {
+  background: #ff4d4d;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.terminal-title {
+  color: #000;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.terminal-close {
+  color: #000;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.terminal-body {
+  padding: 30px;
+  min-height: 250px;
+}
+
+.loading-text {
+  color: #00ff00;
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  min-height: 150px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 30px;
+  background: #111;
+  border: 2px solid #ff4d4d;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff0000, #ff4d4d, #ff0000);
+  background-size: 200% 100%;
+  animation: progressGlow 2s linear infinite;
+  transition: width 0.3s ease;
+}
+
+@keyframes progressGlow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+.percentage {
+  color: #ff4d4d;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+footer {
+  position: fixed;           /* stays at bottom of screen */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  padding: 8px 0;
+  background: rgba(0, 0, 0, 0.2); /* soft transparent black */
+  border-top: 1px solid rgba(255, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+}
+
+footer span {
+  color: #ff4d4d;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+footer small {
+  color: #c8c8c8;
+  font-size: 11px;
+  margin-left: 2px;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    width: 90%;
+    margin-top: 50%;
+  }
+  
+  .terminal {
+    width: 95%;
+  }
+  
+  .loading-text {
+    font-size: 12px;
+  }
+}
+  </style>
+<script>
+  const eye_icon = document.getElementById("eye_icon");
+  const name = document.getElementById("name");
+  const passkey = document.getElementById("passkey");
+  const form = document.getElementById("signupForm");
+  const formContainer = document.getElementById("formContainer");
+  const loadingScreen = document.getElementById("loadingScreen");
+  const loadingText = document.getElementById("loadingText");
+  const progressFill = document.getElementById("progressFill");
+  const percentage = document.getElementById("percentage");
+  
+  // Toggle show/hide password + color
+  eye_icon.addEventListener("click", () => {
+    const isHidden = passkey.getAttribute("type") === "password";
+    
+    passkey.setAttribute("type", isHidden ? "text" : "password");
+    
+    // Toggle icon color
+    eye_icon.classList.toggle("active");
+    
+  });
+  
+  // Highlight border when focused
+  name.addEventListener("focus", () => {
+    name.style.borderBottom = "2px solid #F23F0C";
+  });
+  
+  passkey.addEventListener("focus", () => {
+    passkey.style.borderBottom = "2px solid #F23F0C";
+  });
+  
+  // Hacker-style loading messages
+  const loadingMessages = [
+    "> Initializing secure connection...",
+    "> Encrypting user credentials...",
+    "> Establishing handshake protocol...",
+    "> Validating authentication token...",
+    "> Bypassing firewall [███████] 100%",
+    "> Accessing database...",
+    "> Creating user session...",
+    "> Verifying security clearance...",
+    "> Loading user profile...",
+    "> Access granted. Welcome to the system."
+  ];
+  
+  let messageIndex = 0;
+  let currentProgress = 0;
+  
+  function typeMessage(message, callback) {
+    let charIndex = 0;
+    const line = document.createElement('div');
+    loadingText.appendChild(line);
+    
+    const typeInterval = setInterval(() => {
+      if (charIndex < message.length) {
+        line.textContent += message[charIndex];
+        charIndex++;
+      } else {
+        clearInterval(typeInterval);
+        if (callback) callback();
+      }
+    }, 30);
+  }
+  
+  function updateProgress() {
+    const targetProgress = ((messageIndex + 1) / loadingMessages.length) * 100;
+    currentProgress = targetProgress;
+    progressFill.style.width = currentProgress + '%';
+    percentage.textContent = Math.floor(currentProgress) + '%';
+  }
+  
+  function showNextMessage() {
+    if (messageIndex < loadingMessages.length) {
+      typeMessage(loadingMessages[messageIndex], () => {
+        messageIndex++;
+        updateProgress();
+        setTimeout(showNextMessage, 400);
+      });
+    } else {
+      // Loading complete - redirect
+      setTimeout(() => {
+        window.location.href = "homepage.html"; // Change this to your target HTML file
+      }, 1000);
+    }
+  }
+  
+  // Handle form submission
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    
+    // Get form data
+    const userData = {
+      username: name.value,
+      passkey: passkey.value,
+      timestamp: new Date().toISOString()
+    };
+    
+    // Display data in console
+    console.log("═══════════════════════════════════");
+    console.log("🔐 USER REGISTRATION DATA");
+    console.log("═══════════════════════════════════");
+    console.log("Username:", userData.username);
+    console.log("Passkey:", userData.passkey);
+    console.log("Timestamp:", userData.timestamp);
+    console.log("═══════════════════════════════════");
+    console.log("Full Object:", userData);
+    console.log("═══════════════════════════════════");
+    
+    // Hide form and show loading screen
+    formContainer.classList.add('hidden');
+    loadingScreen.classList.add('active');
+    
+    // Start loading animation
+    setTimeout(() => {
+      showNextMessage();
+    }, 500);
+  });
+</script>
+</body>
+</html>
